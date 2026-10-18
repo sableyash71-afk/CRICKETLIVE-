@@ -6,7 +6,8 @@ A responsive HTML/CSS/JavaScript cricket scoring prototype designed for Android 
 - `index.html` — app structure
 - `styles.css` — mobile-first design
 - `index.js` — manual scoring, scorecards, international match feed adapter
-
+first page open on home page
+home page on only scores and result of international matches 
 ## Run
 Open `index.html` in a browser, or place these three files in an Android WebView project's assets folder and load `file:///android_asset/index.html`.
 
