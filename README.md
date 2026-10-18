@@ -36,10 +36,10 @@ Your endpoint should return JSON like:
       "id": "match-123",
       "international": true,
       "status": "live",
-      "format": "T20I",
+      "format": "T20,ODI,TEST",
       "series": "International series",
       "venue": "Ground, City",
-      "team1": {"name": "Team A", "flag": "🏏", "score": "120/3", "overs": "14.2 ov"},
+      "team1": {"name": "Team A", "flag": "🏏", "score": "120-3", "overs": "14.2 ov"},
       "team2": {"name": "Team B", "flag": "🏏", "score": "—", "overs": ""},
       "result": "Live"
     }
