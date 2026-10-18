@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b16">
+  <title>Boundary Cricket</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">B<span>•</span></div>
+    <div class="brand-copy"><strong>BOUNDARY</strong><small>CRICKET CENTRE</small></div>
+    <button id="refreshBtn" class="icon-btn" aria-label="Refresh scores" title="Refresh scores">↻</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="live-dot"></span> INTERNATIONAL CRICKET</div>
+      <h1>Every run.<br><em>Every moment.</em></h1>
+      <p>Live matches, results and your own scorecards — all in one place.</p>
+      <div class="hero-meta"><span id="feedStatus">Manual scorer ready</span><span id="lastUpdated">Updated just now</span></div>
+    </section>
+
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab active" data-view="home">Matches</button>
+      <button class="tab" data-view="scorer">Manual scorer</button>
+    </nav>
+
+    <section id="homeView" class="view">
+      <div class="section-heading">
+        <div><div class="eyebrow muted">THE INTERNATIONAL ARENA</div><h2>Match centre</h2></div>
+        <select id="matchFilter" aria-label="Filter matches">
+          <option value="all">All matches</option>
+          <option value="live">Live now</option>
+          <option value="result">Results</option>
+        </select>
+      </div>
+      <div id="matchList" class="match-list"></div>
+      <div class="source-note">
+        <strong>Score source</strong>
+        <p>Live international scores need a licensed cricket-data API. Google Search is not used as an unofficial data API. Add your provider endpoint in <code>index.js</code>; demo cards are clearly labelled.</p>
+      </div>
+    </section>
+
+    <section id="scorerView" class="view hidden">
+      <div class="section-heading">
+        <div><div class="eyebrow muted">YOUR MATCH</div><h2>Manual scorer</h2></div>
+        <button id="newMatchBtn" class="small-btn">＋ New match</button>
+      </div>
+      <div class="score-setup card">
+        <label>Batting team<input id="batTeam" value="India" maxlength="40"></label>
+        <label>Bowling team<input id="bowlTeam" value="Australia" maxlength="40"></label>
+        <div class="two-col">
+          <label>Striker<input id="strikerName" value="Batter 1" maxlength="40"></label>
+          <label>Non-striker<input id="nonStrikerName" value="Batter 2" maxlength="40"></label>
+        </div>
+        <div class="two-col">
+          <label>Opening bowler<input id="bowlerName" value="Bowler 1" maxlength="40"></label>
+          <label>Format<select id="format"><option>T20</option><option>ODI</option><option>Test</option></select></label>
+        </div>
+        <button id="startMatchBtn" class="primary-btn">Start / update match</button>
+      </div>
+
+      <div class="scoreboard card">
+        <div class="scoreboard-top"><span id="inningsLabel">1ST INNINGS</span><span class="manual-tag">MANUAL</span></div>
+        <div class="team-score"><div><strong id="scoreTeam">India</strong><span id="scoreOvers">0.0 overs</span></div><div class="score-number"><b id="totalRuns">0</b><span>/ <span id="totalWickets">0</span></span></div></div>
+        <div class="score-stats">
+          <div><small>RUN RATE</small><strong id="runRate">0.00</strong></div>
+          <div><small>EXTRAS</small><strong id="extrasTotal">0</strong></div>
+          <div><small>LEGAL BALLS</small><strong id="legalBalls">0</strong></div>
+        </div>
+        <div class="players">
+          <div class="player-row active-player"><span>★ <b id="strikerDisplay">Batter 1</b></span><span><b id="strikerRuns">0</b> <small>(<span id="strikerBalls">0</span>)</small> <small>4s <span id="strikerFours">0</span> · 6s <span id="strikerSixes">0</span></small></span></div>
+          <div class="player-row"><span><b id="nonStrikerDisplay">Batter 2</b></span><span><b id="nonStrikerRuns">0</b> <small>(<span id="nonStrikerBalls">0</span>)</small> <small>4s <span id="nonStrikerFours">0</span> · 6s <span id="nonStrikerSixes">0</span></small></span></div>
+          <div class="player-row"><span>Bowler: <b id="bowlerDisplay">Bowler 1</b></span><span><b id="bowlerFigures">0/0</b> <small>(<span id="bowlerOvers">0.0</span> ov)</small></span></div>
+        </div>
+        <div class="recent-balls"><small>RECENT BALLS</small><div id="recentBalls"><span>—</span></div></div>
+      </div>
+
+      <div class="card controls-card">
+        <div class="control-title"><h3>Score this delivery</h3><span>Tap an outcome</span></div>
+        <div class="run-buttons">
+          <button data-run="0">Dot <b>0</b></button><button data-run="1">1</button><button data-run="2">2</button>
+          <button data-run="3">3</button><button data-run="4" class="boundary">4</button><button data-run="6" class="boundary">6</button>
+        </div>
+        <div class="extra-buttons">
+          <button data-extra="wide">Wide +1</button><button data-extra="noball">No-ball +1</button>
+          <button data-extra="bye">Bye</button><button data-extra="legbye">Leg bye</button>
+          <button id="wicketBtn" class="wicket-btn">Wicket</button><button id="undoBtn" class="undo-btn">↶ Undo</button>
+        </div>
+        <div class="two-col control-options">
+          <label>Extra runs (bye / leg bye / penalty)<input id="extraRuns" type="number" min="0" max="6" value="1"></label>
+          <label>Wicket type<select id="wicketType"><option>Bowled</option><option>Caught</option><option>LBW</option><option>Run out</option><option>Stumped</option><option>Hit wicket</option><option>Retired hurt</option></select></label>
+        </div>
+        <button id="swapBtn" class="secondary-btn">⇄ Swap striker / non-striker</button>
+        <button id="endInningsBtn" class="secondary-btn">End innings / start next innings</button>
+      </div>
+
+      <div class="card scorecard-card">
+        <div class="scorecard-heading"><h3>Full scorecard</h3><button id="exportBtn" class="small-btn">Export JSON</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Batting</th><th>R</th><th>B</th><th>4</th><th>6</th><th>SR</th><th>Status</th></tr></thead><tbody id="battingTable"></tbody></table></div>
+        <div class="innings-summary" id="inningsSummary"></div>
+        <div class="table-wrap"><table><thead><tr><th>Bowling</th><th>O</th><th>M</th><th>R</th><th>W</th><th>ER</th></tr></thead><tbody id="bowlingTable"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Over</th><th>Ball-by-ball</th><th>Runs</th></tr></thead><tbody id="oversTable"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+  <footer>BOUNDARY CRICKET <span>•</span> Built for the love of the game</footer>
+  <script src="index.js"></script>
+</body>
+</html>
